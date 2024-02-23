@@ -2,6 +2,8 @@
 # Also can generate a transaction id
 # inintial balance should be put in the transaction
 # Security , logging in the account
+# Gui
+#bank login vs user login
 
 # got to learn about composition that another class can use some other class without inheriting from that class.
 import random
@@ -11,7 +13,7 @@ class BankAccount:
         self.account_number = random.randint(100000,999999)
         self.name = name
         self.balance = initial_balance
-        self.transactions = []
+        self.transactions = [f'Initial amount of Rs {self.balance} has been deposited']
 
 
     def deposit(self,amount):
@@ -47,6 +49,7 @@ class BankAccount:
         self.balance = 0
         self. transactions =  []
 
+     
 class Bank:
     def __init__(self):
         self.accounts = []
@@ -66,19 +69,66 @@ class Bank:
         for accounts in self.accounts:
             print(f'{accounts.account_number} , {accounts.name}')
 
+     
+
+answer = "y"
+bank = Bank()
+user_accounts = []
+
+while answer == "y":
+    print(f'''    1.Create Account
+    2.Deposit
+    3.Withdraw
+    4.Transfer    
+    5.Check Balance
+    6.Display Transactions''')    
+
+    user_input = int(input("Enter the number from the given options:"))
 
 
-account = Bank()
-acc1 = account.create_account("Richie1" ,123456)
-acc2 = account.create_account("Richie1" ,123456)
+    if(user_input == 1):
+        
+        name = input("Enter the name of the account holder : ")
+        initial_balance = int(input("Enter the intial balance : "))
+        new_acc = bank.create_account(name, initial_balance)
+        # user account gets appended to the list as object and then we access all the different acccounts even if created by one user
 
-account.view_all_accounts()
-acc2.deposit(1234)
-acc1.deposit(1234)
-acc1.withdraw(1234)
-acc1.check_balance()
-acc1.display_transactions()
-acc1.transfer(1234, acc2)
+        user_accounts.append(new_acc)
+        print(f'Account created with acccount number : {new_acc.account_number}')
 
-print(acc1.transactions)
-print(acc2.transactions)
+    else:
+        account_number = int(input("Enter the account number : "))
+        # here we retrieve the account object
+        current_account = bank.get_account(account_number)
+    
+        if(user_input == 2):
+            amount =  int(input("Enter the amount to deposit : "))
+            current_account.deposit(amount)
+        
+        if(user_input == 3):
+            amount =  int(input("Enter the amount to withdraw : "))
+            current_account.withdraw(amount) 
+
+        if(user_input == 4):
+            target_number = int(input("Enter the target account number : "))
+            target_account = bank.get_account(target_number)
+            amount = int(input("Enter the amount to transfer"))
+            current_account.transfer(amount, target_account)
+    
+        if(user_input == 5):
+            current_account.check_balance()
+
+        if(user_input == 6):
+            current_account.display_transactions()
+    
+    
+    
+
+    answer = input("Do you want to continue y/n : ")
+
+
+
+
+
+
+
