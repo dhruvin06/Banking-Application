@@ -3,7 +3,7 @@
 # inintial balance should be put in the transaction
 # Security , logging in the account
 # Gui
-#bank login vs user login
+#bank login vs user login 
 
 # got to learn about composition that another class can use some other class without inheriting from that class.
 import random
@@ -120,8 +120,6 @@ while answer == "y":
 
         if(user_input == 6):
             current_account.display_transactions()
-    
-    
     
 
     answer = input("Do you want to continue y/n : ")
